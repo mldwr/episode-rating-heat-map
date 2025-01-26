@@ -19,7 +19,7 @@ export function InfoModal() {
       <DialogContent className="sm:max-w-[425px] bg-white text-black">
         <DialogHeader>
           <DialogTitle>About Episode Ratings Heat Map</DialogTitle>
-          <DialogDescription>It is a tool for visualizing TV show episode ratings.</DialogDescription>
+          <DialogDescription>The tool visualizes the avarage ratings for TV show episodes.</DialogDescription>
         </DialogHeader>
         <div className="py-4">
           <h4 className="text-sm font-medium mb-2">How to use:</h4>
