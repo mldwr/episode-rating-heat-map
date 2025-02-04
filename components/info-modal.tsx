@@ -18,7 +18,7 @@ export function InfoModal() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-white text-black">
         <DialogHeader>
-          <DialogTitle>About Episode Ratings Heat Map</DialogTitle>
+          <DialogTitle>About Episode Rating Heat Map</DialogTitle>
           <DialogDescription>The tool visualizes the avarage ratings for TV show episodes.</DialogDescription>
         </DialogHeader>
         <div className="py-4">

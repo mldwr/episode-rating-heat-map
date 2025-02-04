@@ -208,7 +208,7 @@ export default function SeriesHeat() {
             <div className="flex items-center">
               <Tv className="w-8 h-8" />
             </div>
-            <h1 className="text-3xl font-bold">Episode Ratings Heat Map</h1>
+            <h1 className="text-3xl font-bold">Episode Rating Heat Map</h1>
           </div>
           <div className="flex items-center gap-2">
             <span>made with </span>
