@@ -202,7 +202,7 @@ export default function SeriesHeat() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-black">
-      <div className="p-6 flex flex-col flex-grow">
+      <div className="flex flex-col flex-grow mx-auto container px-4 py-6 space-y-6">
         <header className="flex flex-col items-center space-y-2 mb-6">
           <div className="flex items-center gap-2">
             <div className="flex items-center">
