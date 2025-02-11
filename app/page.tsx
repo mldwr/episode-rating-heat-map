@@ -202,7 +202,7 @@ export default function SeriesHeat() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-black">
-      <div className="mx-auto p-6 flex flex-col flex-grow">
+      <div className="p-6 flex flex-col flex-grow">
         <header className="flex flex-col items-center space-y-2 mb-6">
           <div className="flex items-center gap-2">
             <div className="flex items-center">
@@ -229,94 +229,97 @@ export default function SeriesHeat() {
           </div>
         </header>
 
-        <div className="flex flex-col gap-6">
-          <div className="flex justify-between items-center gap-10">
-            <div className="flex justify-between items-start flex-col gap-6">
-              <div className="relative w-[300px]" ref={searchContainerRef}>
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search TV shows..."
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
-                />
-                <SearchResults
-                  results={searchResults}
-                  isLoading={isLoading}
-                  onSelect={async (show) => {
-                    setSearchQuery(show.name)
-                    setSearchResults([])
-                    await handleShowSelect(show.id.toString())
-                  }}
-                />
-              </div>
 
-              {selectedShow && (
-                <div className="flex items-center gap-2 justify-center">
-                  <h2 className="text-4xl font-bold">{selectedShow.title}</h2>
-                  <div className="bg-[#01b4e4] text-white px-2 py-0.5 font-bold">TMDB</div>
-                </div>
-              )}
-            </div>
+        <div className="flex justify-between items-center gap-6 mb-6 flex-wrap">
+          <div className="relative w-[300px]" ref={searchContainerRef}>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search TV shows..."
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
+            />
+            <SearchResults
+              results={searchResults}
+              isLoading={isLoading}
+              onSelect={async (show) => {
+                setSearchQuery(show.name)
+                setSearchResults([])
+                await handleShowSelect(show.id.toString())
+              }}
+            />
+          </div>
 
-            <div className="flex items-end gap-6 flex-col">
-              <div className="flex items-center gap-6">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm">Color Scheme</span>
-                  <div className="flex gap-2">
-                    {[1, 2, 3].map((num) => (
-                      <button
-                        key={num}
-                        onClick={() => setColorScheme(num.toString())}
-                        className={`w-8 h-8 rounded flex items-center justify-center ${
-                          colorScheme === num.toString() ? "bg-gray-600 text-white" : "bg-white border border-gray-300"
-                        }`}
-                      >
-                        {num}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <span className="text-sm">Flip</span>
-                  <Switch
-                    checked={isFlipped}
-                    onCheckedChange={setIsFlipped}
-                    className="bg-gray-200 data-[state=checked]:bg-blue-600"
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-4 items-center justify-center">
-                {[
-                  { label: "Great", rating: 9.5 },
-                  { label: "Good", rating: 8.5 },
-                  { label: "Regular", rating: 7.5 },
-                  { label: "Bad", rating: 6.0 },
-                  { label: "Garbage", rating: 4.0 },
-                ].map(({ label, rating }) => (
-                  <div key={label} className="flex items-center gap-2">
-                    <div className={`w-4 h-4 ${getRatingColor(rating)}`} />
-                    <span className={rating < 5.0 ? "text-purple-800" : ""}>{label}</span>
-                  </div>
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <span className="text-sm">Color Scheme</span>
+              <div className="flex gap-2">
+                {[1, 2, 3].map((num) => (
+                  <button
+                    key={num}
+                    onClick={() => setColorScheme(num.toString())}
+                    className={`w-8 h-8 rounded flex items-center justify-center ${
+                      colorScheme === num.toString() ? "bg-gray-600 text-white" : "bg-white border border-gray-300"
+                    }`}
+                  >
+                    {num}
+                  </button>
                 ))}
               </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-sm">Flip</span>
+              <Switch
+                checked={isFlipped}
+                onCheckedChange={setIsFlipped}
+                className="bg-gray-200 data-[state=checked]:bg-blue-600"
+              />
             </div>
           </div>
         </div>
 
-        <div className="flex-grow flex flex-col justify-center overflow-x-auto">
-          {isLoading ? (
-            <div className="text-center py-10">Loading...</div>
-          ) : selectedShow && selectedShow.ratings ? (
-            <div className="space-y-4">{renderGrid(selectedShow.ratings)}</div>
-          ) : (
-            <div className="text-center py-10">
-              No show selected or no ratings available. Please search for a TV show.
+        <div className="flex justify-between items-center gap-6 flex-wrap">
+
+        {selectedShow && (
+            <div className="flex items-center gap-2 justify-center">
+              <h2 className="text-4xl font-bold">{selectedShow.title}</h2>
+              <div className="bg-[#01b4e4] text-white px-2 py-0.5 font-bold">TMDB</div>
             </div>
           )}
+
+          <div className="flex gap-4 items-center justify-center">
+            {[
+              { label: "Great", rating: 9.5 },
+              { label: "Good", rating: 8.5 },
+              { label: "Regular", rating: 7.5 },
+              { label: "Bad", rating: 6.0 },
+              { label: "Garbage", rating: 4.0 },
+            ].map(({ label, rating }) => (
+              <div key={label} className="flex items-center gap-2">
+                <div className={`w-4 h-4 ${getRatingColor(rating)}`} />
+                <span className={rating < 5.0 ? "text-purple-800" : ""}>{label}</span>
+              </div>
+            ))}
+          </div>
         </div>
+
+        <div className="">
+          <div className="flex-grow flex flex-col justify-center overflow-x-auto">
+            {isLoading ? (
+              <div className="text-center py-10">Loading...</div>
+            ) : selectedShow && selectedShow.ratings ? (
+              <div className="space-y-4">{renderGrid(selectedShow.ratings)}</div>
+            ) : (
+              <div className="text-center py-10">
+                No show selected or no ratings available. Please search for a TV show.
+              </div>
+            )}
+          </div>
+        </div>
+        
+
+
       </div>
     </div>
   )
