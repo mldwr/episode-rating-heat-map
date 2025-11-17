@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Tv } from "lucide-react"
+import { Tv, X } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
 import type { Show, SearchResult } from "@/types/show"
 import { useDebounce } from "use-debounce"
@@ -25,6 +25,7 @@ export default function SeriesHeat() {
   const [selectedShow, setSelectedShow] = useState<Show | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const searchContainerRef = useRef<HTMLDivElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     // Fetch Game of Thrones data when the component mounts
@@ -69,6 +70,12 @@ export default function SeriesHeat() {
       console.error("Error fetching show details:", error)
     }
     setIsLoading(false)
+  }
+
+  const clearSearch = () => {
+    setSearchQuery("")
+    setSearchResults([])
+    searchInputRef.current?.focus()
   }
 
   const getColorScheme2 = (rating: number) => {
@@ -214,15 +221,59 @@ export default function SeriesHeat() {
         </header>
 
 
+        <div className="flex justify-between items-center gap-6 flex-wrap">
+
+        {selectedShow && (
+            <div className="flex items-center gap-2 justify-center">
+              <h2 className="text-4xl font-bold">{selectedShow.title}</h2>
+              <div className="bg-[#01b4e4] text-white px-2 py-0.5 font-bold">TMDB</div>
+            </div>
+          )}
+
+          <div className="flex gap-4 items-center justify-center">
+            {[
+              { label: "Great", rating: 9.5 },
+              { label: "Good", rating: 8.5 },
+              { label: "Regular", rating: 7.5 },
+              { label: "Bad", rating: 6.0 },
+              { label: "Garbage", rating: 4.0 },
+            ].map(({ label, rating }) => (
+              <div key={label} className="flex items-center gap-2">
+                <div className={`w-4 h-4 ${getRatingColor(rating)}`} />
+                <span className={rating < 5.0 ? "text-purple-800" : ""}>{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        
         <div className="flex justify-between items-center gap-6 mb-6 flex-wrap">
           <div className="relative w-[300px]" ref={searchContainerRef}>
             <input
+              ref={searchInputRef}
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") {
+                  clearSearch()
+                }
+              }}
               placeholder="Search TV shows..."
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
+              aria-label="Search TV shows"
+              className="w-full pl-3 pr-10 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-black"
             />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={clearSearch}
+                aria-label="Clear search"
+                title="Clear search"
+                className="absolute inset-y-0 right-2 flex items-center p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <X className="w-4 h-4 text-gray-500" />
+              </button>
+            )}
             <SearchResults
               results={searchResults}
               isLoading={isLoading}
@@ -263,30 +314,6 @@ export default function SeriesHeat() {
           </div>
         </div>
 
-        <div className="flex justify-between items-center gap-6 flex-wrap">
-
-        {selectedShow && (
-            <div className="flex items-center gap-2 justify-center">
-              <h2 className="text-4xl font-bold">{selectedShow.title}</h2>
-              <div className="bg-[#01b4e4] text-white px-2 py-0.5 font-bold">TMDB</div>
-            </div>
-          )}
-
-          <div className="flex gap-4 items-center justify-center">
-            {[
-              { label: "Great", rating: 9.5 },
-              { label: "Good", rating: 8.5 },
-              { label: "Regular", rating: 7.5 },
-              { label: "Bad", rating: 6.0 },
-              { label: "Garbage", rating: 4.0 },
-            ].map(({ label, rating }) => (
-              <div key={label} className="flex items-center gap-2">
-                <div className={`w-4 h-4 ${getRatingColor(rating)}`} />
-                <span className={rating < 5.0 ? "text-purple-800" : ""}>{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
 
         <div className="">
           <div className="flex-grow flex flex-col justify-center overflow-x-auto">
