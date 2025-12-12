@@ -32,7 +32,7 @@ export function InfoModal() {
           <div className="flex items-center gap-2">
             <Lightbulb className="w-4 h-4 text-gray-500" />
             <p>
-              Inspired by Jim Vallandingham's{" "}
+              Adapted from Jim Vallandingham's{" "}
               <a
                 href="https://vallandingham.me/seriesheat/#/"
                 target="_blank"
